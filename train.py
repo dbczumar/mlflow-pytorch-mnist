@@ -143,7 +143,8 @@ conda_env = _mlflow_conda_env(
         "torchvision={}".format(torchvision.__version__),
     ],
     additional_pip_deps=[
-        "cloudpickle=={}".format(cloudpickle.__version__)
+        "cloudpickle=={}".format(cloudpickle.__version__),
+        "mlflow=={}".format(mlflow.__version__),
     ])
 
 class MnistTorchRNN(PythonModel):
