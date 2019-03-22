@@ -96,12 +96,13 @@ def train_model(model):
             outputs = model(images)
             loss = criterion(outputs, labels)
 
-            mlflow.log_metric("neg_log_loss", loss.numpy()[0])
 
             # Backward and optimize
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+
+            mlflow.log_metric("neg_log_loss", loss.item())
 
             if (i+1) % 50 == 0:
                 print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
