@@ -96,7 +96,7 @@ def train_model(model):
             outputs = model(images)
             loss = criterion(outputs, labels)
 
-            mlflow.log_metric("neg_log_loss", loss)
+            mlflow.log_metric("neg_log_loss", loss.numpy()[0])
 
             # Backward and optimize
             optimizer.zero_grad()
