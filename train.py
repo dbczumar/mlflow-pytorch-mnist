@@ -136,7 +136,7 @@ mlflow.pytorch.log_model(pytorch_model=model, artifact_path="torch-rnn-model")
 conda_env = _mlflow_conda_env(
     path="conda.yaml", 
     additional_conda_channels=[
-        "pytorch",i
+        "pytorch",
     ],
     additional_conda_deps=[
         "pytorch={}".format(torch.__version__),
