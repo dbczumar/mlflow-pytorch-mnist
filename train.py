@@ -4,7 +4,9 @@ import mlflow
 import mlflow.pyfunc
 import mlflow.pytorch
 from mlflow.pyfunc import PythonModel
+from mlflow.utils.environment import _mlflow_conda_env
 
+import cloudpickle
 
 import torch
 import torch.nn as nn
@@ -131,6 +133,19 @@ else:
 
 mlflow.pytorch.log_model(pytorch_model=model, artifact_path="torch-rnn-model")
 
+conda_env = _mlflow_conda_env(
+    path="conda.yaml", 
+    additional_conda_channels=[
+        "pytorch",i
+    ],
+    additional_conda_deps=[
+        "pytorch={}".format(torch.__version__),
+        "torchvision={}".format(torchvision.__version__),
+    ],
+    additional_pip_deps=[
+        "cloudpickle=={}".format(cloudpickle.__version__)
+    ])
+
 class MnistTorchRNN(PythonModel):
 
     def load_context(self, context):
@@ -150,5 +165,7 @@ mlflow.pyfunc.log_model(
     artifacts={
         "torch-rnn-model": mlflow.get_artifact_uri("torch-rnn-model")
     },
-    python_model=MnistTorchRNN())
+    python_model=MnistTorchRNN(),
+    conda_env=conda_env)
+
 print(mlflow.active_run().info.run_uuid)
