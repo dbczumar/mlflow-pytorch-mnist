@@ -7,4 +7,4 @@ dependencies:
   - pytorch
   - torchvision
   - pip:
-    - mlflow
+    - mlflow==0.9.0
