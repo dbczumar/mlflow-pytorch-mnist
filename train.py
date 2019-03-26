@@ -150,7 +150,8 @@ conda_env = _mlflow_conda_env(
 class MnistTorchRNN(PythonModel):
 
     def load_context(self, context):
-        self.model = mlflow.pytorch.load_model(context.artifacts["torch-rnn-model"])
+        self.model = mlflow.pytorch.load_model(
+            context.artifacts["torch-rnn-model"], map_location="cpu")
         self.model.to('cpu')
         self.model.eval()
 
