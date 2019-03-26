@@ -72,8 +72,8 @@ class RNN(nn.Module):
 
     def forward(self, x):
         # Set initial hidden and cell states
-        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(device)
-        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(device)
+        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self._get_device())
+        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self._get_device())
         # Forward propagate LSTM
         out, _ = self.lstm(x, (h0, c0))  # out: tensor of shape (batch_size, seq_length, hidden_size)
         # Decode the hidden state of the last time step
@@ -81,6 +81,9 @@ class RNN(nn.Module):
         # Softmax
         out = self.softmax(out)
         return out
+
+    def _get_device(self):
+        return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def train_model(model):
     # Loss and optimizer
