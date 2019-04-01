@@ -164,7 +164,8 @@ class MnistTorchRNN(PythonModel):
         with torch.no_grad():
             input_tensor = torch.from_numpy(
                 input_df.values.reshape(-1, 28, 28).astype(np.float32)).to('cpu')
-            return self.model(input_tensor).numpy()
+            model_results = self.model(input_tensor).numpy()
+            return np.power(np.e, model_results)
 
 mlflow.pyfunc.log_model(
     artifact_path="pyfunc-rnn",
